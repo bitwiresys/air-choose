@@ -5,8 +5,8 @@
 // Accepts an ISO 3166-1 alpha-2 country code directly as origin/destination
 // (confirmed live: {"arrival":"TH"} returns real Thailand results) as well as
 // Kupibilet's own city codes (e.g. "MOW" for all Moscow airports). One call
-// covers the *entire* requested date range and returns train fares mixed in
-// with flights (transport_kind: "airplane" | "train") — filter as needed.
+// covers the *entire* requested date range. Train fares (transport_kind:
+// "train") are filtered out — only airplane offers are returned.
 //
 // Coverage: Russia-market focused, but genuinely worldwide (any route Kupibilet
 // itself sells).
@@ -73,6 +73,10 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
     const flightIds = (variant.segments || []).flatMap((s) => s.flights || []);
     const legs = flightIds.map((fid) => flights[fid]).filter(Boolean);
     if (!legs.length) continue;
+
+    // Skip train segments — only return airplane flights.
+    if (legs.some((l) => l.transport_kind === 'train')) continue;
+
     legs.sort((a, b) => a.departure_datetime.localeCompare(b.departure_datetime));
 
     const first = legs[0];
@@ -90,7 +94,6 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
       airline: first.marketing_carrier || first.operating_carrier || null,
       flightNumber: first.transport_number || String(first.number || ''),
       stops: legs.length - 1,
-      transportKind: legs.some((l) => l.transport_kind === 'train') ? 'train' : 'airplane',
       extra: {
         baggage: variant.baggage,
         legCount: legs.length,
@@ -101,7 +104,6 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
           to: l.arrival,
           departure: l.departure_datetime,
           arrival: l.arrival_datetime,
-          transportKind: l.transport_kind,
         })),
       },
     });

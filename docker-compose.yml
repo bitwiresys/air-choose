@@ -1,0 +1,9 @@
+services:
+  air-choose:
+    build: .
+    container_name: air-choose
+    restart: unless-stopped
+    environment:
+      - AIR_CHOOSE_INTERVAL_MS=3600000
+    volumes:
+      - ./data:/app/data

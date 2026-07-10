@@ -149,7 +149,6 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
         airline: 'SG',
         flightNumber: null,
         stops: null,
-        transportKind: 'airplane',
         extra: {
           fareAmount: entry.lowestFareAmount.fareAmount,
           taxesAndFeesAmount: entry.lowestFareAmount.taxesAndFeesAmount,

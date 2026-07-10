@@ -99,7 +99,6 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
             airline: 'FR',
             flightNumber: segment?.flightNumber || null,
             stops: (flight.segments?.length || 1) - 1,
-            transportKind: 'airplane',
             extra: { faresLeft: flight.faresLeft, duration: segment?.duration },
           });
         }

@@ -109,7 +109,6 @@ export async function searchFares({ originCode, destinationCode, dateFrom, dateT
               airline: 'JQ',
               flightNumber: String(flight.flightId),
               stops: flight.stopCount ?? 0,
-              transportKind: 'airplane',
               extra: { soldOut: flight.soldOut, fareClasses: flight.fareClasses, member: flight.member },
             });
           }

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// air_choose — MCP server that watches flight (and, for Kupibilet, train) fares
-// across several provider APIs and lets an agent add/remove/inspect watched
-// routes. See README.md for the full design and how to wire this into an
-// agent host (Hermes/OpenClaw/etc).
+// air_choose — MCP server that monitors flight prices across multiple airline
+// provider APIs and lets an agent add/remove/inspect watched routes. Read-only
+// information service: no ticket ordering, only available flight data.
+// See README.md for the full design and how to wire this into an agent host.
 
 import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -35,9 +35,9 @@ function log(message) {
 server.registerTool(
   'list_providers',
   {
-    title: 'List flight/ticket providers',
+    title: 'List airline providers',
     description:
-      'List every provider air_choose can query, with its coverage region and whether it needs a live ' +
+      'List every airline provider air_choose can query, with its coverage region and whether it needs a live ' +
       'browser session (those are NOT included here — only providers that work with plain HTTP calls are).',
     inputSchema: {},
   },

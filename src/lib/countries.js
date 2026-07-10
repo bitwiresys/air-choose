@@ -102,6 +102,10 @@ const NAME_TO_ISO2 = {
 /** Resolve a free-text country name/alias (RU or EN) to an ISO 3166-1 alpha-2 code, or null. */
 export function countryNameToIso2(query) {
   const q = query.trim().toLowerCase();
-  if (/^[a-z]{2}$/i.test(q)) return q.toUpperCase(); // already an ISO2 code
-  return NAME_TO_ISO2[q] || null;
+  // Check the name map first — "uk" maps to "GB", which is the real ISO2 code,
+  // so a naive 2-letter passthrough would return the wrong code.
+  const fromMap = NAME_TO_ISO2[q];
+  if (fromMap) return fromMap;
+  if (/^[a-z]{2}$/i.test(q)) return q.toUpperCase(); // already a valid ISO2 code
+  return null;
 }

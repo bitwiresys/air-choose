@@ -1,0 +1,17 @@
+{
+  "name": "air-choose",
+  "version": "0.1.0",
+  "description": "MCP server that monitors flight prices across multiple provider APIs and lets an AI agent add/remove/inspect watched routes",
+  "type": "module",
+  "bin": {
+    "air-choose": "./src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.0"
+  }
+}
